@@ -1,0 +1,39 @@
+{
+  "home": {
+    "title": "Home Screen",
+    "details": "Details",
+    "signIn": "Sign In",
+    "lightTheme": "Light Theme",
+    "darkTheme": "Dark Theme"
+  },
+  "details": {
+    "title": "Details Screen"
+  },
+  "apiError": {
+    "clientError":"Invalid or incomplete data provided by the client.",
+    "serverError": "An error occurred on the server.",
+    "timeoutError": "The server didn't respond in time.",
+    "connectionError": "Server not available, bad DNS.",
+    "networkError": "No internet connection. Please try again later.",
+    "cancelError": "The request has been cancelled. This can only happen if a `cancelToken` is provided in the config. See Axios `Cancellation`.",
+    "somethingWentWrong": "Something went wrong. Please try again!",
+    "unexpectedError": "An unexpected error occurred.",
+    "cancelSagaError": "The request has been cancelled.",
+    "error": "Error"
+  },
+  "yupError": {
+    "requireEmailError": "Please enter an email address.",
+    "invalidEmailError": "Please enter a valid email address.",
+    "requirePasswordError": "Please enter a password.",
+    "lengthPasswordError": "Must be at least 8 characters long.",
+    "lowercasePasswordError": "Must contain at least one lowercase letter.",
+    "uppercasePasswordError": "Must contain at least one uppercase letter.",
+    "specialPasswordError": "Must contain at least one special character.",
+    "digitPasswordError": "Must contain at least one digit."
+  },
+  "auth": {
+    "hintEmail": "Email",
+    "hintPassword": "Password",
+    "btnSignIn": "Sign In"
+  }
+}

@@ -1,0 +1,70 @@
+
+# # Resolve react_native_pods.rb with node to allow for hoisting
+def node_require(script)
+  # Resolve script with node to allow for hoisting
+  require Pod::Executable.execute_command('node', ['-p',
+    "require.resolve(
+      '#{script}',
+      {paths: [process.argv[1]]},
+    )", __dir__]).strip
+end
+
+node_require('react-native/scripts/react_native_pods.rb')
+node_require('react-native-permissions/scripts/setup.rb')
+
+platform :ios, '16.2'
+prepare_react_native_project!
+
+# ⬇️ uncomment wanted permissions
+setup_permissions([
+   'Camera'
+])
+
+linkage = ENV['USE_FRAMEWORKS']
+if linkage != nil
+  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
+  use_frameworks! :linkage => linkage.to_sym
+end
+
+def shared_pod
+  config = use_native_modules!
+  ENV['RCT_NEW_ARCH_ENABLED'] = '1'
+
+  use_react_native!(
+    :path => config[:reactNativePath],
+    # An absolute path to your application root.
+    :app_path => "#{Pod::Config.instance.installation_root}/.."
+  )
+end
+
+target 'test' do
+  shared_pod
+  config = use_native_modules!
+
+  post_install do |installer|
+    config = use_native_modules!
+    puts "Config: #{config.inspect}"
+    puts "React Native Path: #{config[:reactNativePath]}"
+  
+    begin
+      react_native_post_install(
+        installer,
+        config[:reactNativePath],
+        :mac_catalyst_enabled => false,
+        # :ccache_enabled => true
+      )
+    rescue => e
+      puts "Error in react_native_post_install: #{e.message}"
+      puts e.backtrace
+    end
+  end
+end
+
+target 'test-Dev' do
+  shared_pod
+end
+
+target 'test-Stage' do
+  shared_pod
+end
+
